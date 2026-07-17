@@ -1,5 +1,5 @@
 export const SFX_LEVELS = {
-  master: 1.44,
+  master: 4.32,
   sleeveOpen: 0.5,
   sleeveClose: 0.46,
   recordToSleeve: 0.58,
