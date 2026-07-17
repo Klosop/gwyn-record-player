@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#efc4c4"/>
+      <stop offset=".58" stop-color="#dca4aa"/>
+      <stop offset="1" stop-color="#c88e94"/>
+    </linearGradient>
+    <pattern id="speckles" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1.2" fill="#6e3e46" opacity=".17"/>
+    </pattern>
+    <pattern id="warning" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="12" height="24" fill="#ef5966" opacity=".2"/>
+      <rect x="12" width="12" height="24" fill="#fff" opacity=".08"/>
+    </pattern>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#5c343c" flood-opacity=".22"/>
+    </filter>
+  </defs>
+
+  <!-- Keep this base layer visible while designing, then hide/delete it before exporting stickers. -->
+  <rect x="11" y="11" width="1538" height="978" rx="42" fill="url(#base)" stroke="#9c604f" stroke-width="22"/>
+  <rect x="22" y="22" width="1516" height="956" rx="31" fill="url(#speckles)"/>
+
+  <!-- Exact platter zone: left 6.5%, top 4.5%, width 58%. -->
+  <circle cx="554" cy="497" r="466" fill="url(#warning)" stroke="#c73143" stroke-width="8" stroke-dasharray="18 12"/>
+  <circle cx="554" cy="497" r="452" fill="#342e32" opacity=".2" stroke="#fff6e8" stroke-width="3"/>
+  <text x="554" y="475" text-anchor="middle" fill="#fff" stroke="#6d2833" stroke-width="7" paint-order="stroke"
+        font-family="Arial, sans-serif" font-size="42" font-weight="700">NO STICKERS</text>
+  <text x="554" y="525" text-anchor="middle" fill="#fff" stroke="#6d2833" stroke-width="6" paint-order="stroke"
+        font-family="Arial, sans-serif" font-size="30">PLATTER / VINYL</text>
+
+  <!-- Tonearm pivot and its complete 0°–65° movement sweep. -->
+  <path d="M1326 175 L1326 925 A750 750 0 0 1 646 492 Z"
+        fill="url(#warning)" stroke="#c73143" stroke-width="8" stroke-dasharray="18 12" stroke-linejoin="round"/>
+  <circle cx="1326" cy="175" r="92" fill="#ef5966" fill-opacity=".3" stroke="#c73143" stroke-width="8"/>
+  <line x1="1326" y1="175" x2="1326" y2="850" stroke="#fff6e8" stroke-width="24" stroke-linecap="round" opacity=".65"/>
+  <line x1="1326" y1="175" x2="714" y2="460" stroke="#fff6e8" stroke-width="24" stroke-linecap="round" opacity=".65"/>
+  <text x="1115" y="350" text-anchor="middle" fill="#fff" stroke="#6d2833" stroke-width="6" paint-order="stroke"
+        font-family="Arial, sans-serif" font-size="30" font-weight="700" transform="rotate(-22 1115 350)">TONEARM SWEEP</text>
+
+  <!-- Exact control is x 1412–1521, y 610–920; guide includes a safety margin. -->
+  <rect x="1392" y="590" width="148" height="354" rx="30"
+        fill="url(#warning)" stroke="#c73143" stroke-width="8" stroke-dasharray="18 12"/>
+  <line x1="1466" y1="625" x2="1466" y2="888" stroke="#fff6e8" stroke-width="12" stroke-linecap="round"/>
+  <rect x="1434" y="720" width="64" height="28" rx="8" fill="#fff6e8"/>
+  <text x="1360" y="935" text-anchor="end" fill="#fff" stroke="#6d2833" stroke-width="5" paint-order="stroke"
+        font-family="Arial, sans-serif" font-size="26" font-weight="700">VOLUME</text>
+
+  <!-- Rounded-edge trim safety guide. -->
+  <rect x="42" y="42" width="1476" height="916" rx="28" fill="none"
+        stroke="#fff4cb" stroke-width="4" stroke-dasharray="12 10" opacity=".9"/>
+
+  <g filter="url(#shadow)">
+    <rect x="930" y="700" width="395" height="190" rx="22" fill="#fff7e8" fill-opacity=".94"/>
+    <text x="958" y="748" fill="#624850" font-family="Arial, sans-serif" font-size="25" font-weight="700">STICKER TEMPLATE · 1560 × 1000</text>
+    <text x="958" y="790" fill="#724f58" font-family="Arial, sans-serif" font-size="21">Red striped areas = keep clear</text>
+    <text x="958" y="825" fill="#724f58" font-family="Arial, sans-serif" font-size="21">Dashed cream line = edge safety</text>
+    <text x="958" y="860" fill="#a05262" font-family="Arial, sans-serif" font-size="18">Hide this guide before PNG export.</text>
+  </g>
+</svg>
