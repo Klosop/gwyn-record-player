@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6d8df" />
+    <meta
+      name="description"
+      content="A tiny digital vinyl record player made as a gift."
+    />
+    <title>A little record player</title>
+  </head>
+  <body>
+    <div class="gift-intro" id="gift-intro" role="dialog" aria-modal="true" aria-label="A gift is waiting">
+      <div class="intro-spotlight" aria-hidden="true"></div>
+      <div class="intro-presentation">
+        <div class="intro-player-item" aria-hidden="true">
+          <span class="intro-mini-platter"></span>
+          <span class="intro-mini-arm"></span>
+        </div>
+        <p class="intro-obtained" aria-live="polite" hidden>a little record player ♡</p>
+        <button class="intro-box" id="intro-box" type="button" aria-label="Open the cardboard gift box">
+          <span class="box-back" aria-hidden="true"></span>
+          <span class="box-gift-label" aria-hidden="true">for gweng gweng</span>
+          <span class="box-flap box-flap-left" aria-hidden="true"></span>
+          <span class="box-flap box-flap-right" aria-hidden="true"></span>
+          <span class="box-front" aria-hidden="true"></span>
+          <span class="box-prompt">tap to unbox</span>
+        </button>
+      </div>
+    </div>
+    <div class="lyric-layer" id="lyric-layer" aria-hidden="true"></div>
+    <div id="app">
+      <main class="page-shell">
+        <header class="gift-heading">
+          <span class="eyebrow">for a gweng gweng yayaya</span>
+          <h1>girl, put your records on</h1>
+          <p>tell me your favorite songg</p>
+        </header>
+        <section class="player-wrap" aria-label="Digital record player">
+          <div class="player-stage" id="player-stage">
+            <div class="player-shell">
+              <span class="shell-speckles" aria-hidden="true"></span>
+              <img class="base-stickers" src="./art/base-stickers.png" alt="" aria-hidden="true">
+              <span class="brand-mark" aria-hidden="true">g.</span>
+              <div class="platter-zone" id="platter-zone" data-drop-zone="platter">
+                <div class="platter-rim" aria-hidden="true"></div>
+                <div class="platter-mat" aria-hidden="true"></div>
+                <button class="loaded-record" id="loaded-record" type="button" draggable="false" aria-label="Drag the center label to return the record; drag the black grooves to seek" hidden>
+                  <img alt="" id="loaded-record-art">
+                  <span class="record-grooves" aria-hidden="true"></span>
+                  <span class="record-label" id="record-label" aria-hidden="true"><i></i></span>
+                  <span class="record-hole" aria-hidden="true"></span>
+                </button>
+                <span class="spindle" aria-hidden="true"></span>
+                <p class="empty-platter" id="empty-platter">drop a record here</p>
+              </div>
+              <button class="tonearm-control" id="tonearm" type="button" aria-label="Move tonearm onto record" aria-pressed="false">
+                <span class="tonearm-pivot" aria-hidden="true"><i></i></span>
+                <span class="tonearm-stick" aria-hidden="true"></span>
+                <span class="tonearm-head" aria-hidden="true"><i></i></span>
+              </button>
+              <div class="volume-control">
+                <label for="volume">volume</label>
+                <div class="volume-slit" aria-hidden="true"></div>
+                <input id="volume" type="range" min="0" max="100" value="72" aria-label="Volume">
+              </div>
+              <div class="notice" id="notice" role="status" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+        <aside class="now-playing" id="now-playing">
+          <span class="status-dot" aria-hidden="true"></span>
+          <div class="track-copy" aria-live="polite">
+            <small id="playback-status">waiting for a record</small>
+            <strong id="track-title">—</strong>
+            <span id="track-artist">choose one from the shelf</span>
+          </div>
+          <time class="elapsed-note" id="elapsed-time" aria-label="No playback time available">--:-- / --:--</time>
+        </aside>
+        <section class="collection" aria-labelledby="collection-title" id="record-shelf" data-drop-zone="shelf">
+          <div class="collection-heading">
+            <h2 id="collection-title">the little record shelf</h2>
+            <span>tap to open · double tap to play · drag vinyl</span>
+          </div>
+          <div class="sleeve-row" id="sleeve-row"></div>
+        </section>
+        <footer>made with care &amp; played at 33⅓-ish</footer>
+        <audio id="audio-player" preload="metadata"></audio>
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+
