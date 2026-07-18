@@ -2,6 +2,8 @@ export const SFX_LEVELS = {
   master: 8.64,
   sleeveOpen: 0.5,
   sleeveClose: 0.46,
+  drawerOpen: 0.4,
+  drawerClose: 0.44,
   recordToSleeve: 0.58,
   recordToPlatter: 0.62,
   sleeveHover: 0.16,
@@ -115,6 +117,17 @@ export function playSfx(name: SfxName, intensity = 1): void {
     case "sleeveClose":
       noise(ctx, now, 0.16, level * 0.15, 900);
       knock(ctx, now + 0.105, level * 0.09, 145);
+      break;
+    case "drawerOpen":
+      noise(ctx, now, 0.46, level * 0.16, 640);
+      noise(ctx, now + 0.08, 0.34, level * 0.09, 1650, "highpass");
+      knock(ctx, now + 0.39, level * 0.075, 118);
+      break;
+    case "drawerClose":
+      noise(ctx, now, 0.38, level * 0.15, 590);
+      noise(ctx, now + 0.04, 0.28, level * 0.075, 1420, "highpass");
+      knock(ctx, now + 0.31, level * 0.13, 104);
+      knock(ctx, now + 0.345, level * 0.055, 72);
       break;
     case "recordToSleeve":
       noise(ctx, now, 0.24, level * 0.2, 720);

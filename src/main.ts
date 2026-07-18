@@ -98,6 +98,9 @@ const lyricLayer = find<HTMLDivElement>("#lyric-layer");
 const drawerHandle = find<HTMLButtonElement>("#collection-drawer-handle");
 
 function setRecordDrawerOpen(open: boolean): void {
+  const wasOpen = document.body.classList.contains("is-record-drawer-open");
+  if (wasOpen === open) return;
+  playSfx(open ? "drawerOpen" : "drawerClose");
   document.body.classList.toggle("is-record-drawer-open", open);
   drawerHandle.setAttribute("aria-expanded", String(open));
   const action = drawerHandle.querySelector<HTMLElement>("i");
