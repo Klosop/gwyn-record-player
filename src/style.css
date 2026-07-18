@@ -1725,7 +1725,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   .prototype-record-drawer .sleeve-row {
     grid-template-columns: repeat(4, minmax(0, var(--shelf-card-size)));
     max-height: none;
-    padding: 8px 1px calc(54px + env(safe-area-inset-bottom, 0px));
+    padding: 24px 1px calc(38px + env(safe-area-inset-bottom, 0px));
     column-gap: clamp(3px, 1.2vw, 5px);
     row-gap: 18px;
   }
