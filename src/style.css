@@ -1567,6 +1567,14 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   grid-column: auto;
 }
 
+.prototype-record-drawer .record-card:nth-child(3n + 1).is-open .sleeve-art {
+  transform: translateX(-10%) rotate(-1deg);
+}
+
+.prototype-record-drawer .record-card:nth-child(3n + 1).is-open .shelf-vinyl {
+  transform: translateX(58%) rotate(6deg) scale(1.04);
+}
+
 @media (min-width: 651px) and (max-width: 960px) {
   .prototype-record-drawer .collection {
     --shelf-card-size: clamp(92px, 13vw, 124px);
@@ -1651,6 +1659,22 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   .prototype-record-drawer .collection-heading span {
     max-width: 46%;
     text-align: right;
+  }
+
+  .prototype-record-drawer .record-card:nth-child(3n + 1).is-open .sleeve-art {
+    transform: translateX(-58%) rotate(-3deg);
+  }
+
+  .prototype-record-drawer .record-card:nth-child(3n + 1).is-open .shelf-vinyl {
+    transform: translateX(42%) rotate(6deg) scale(1.04);
+  }
+
+  .prototype-record-drawer .record-card:nth-child(4n + 1).is-open .sleeve-art {
+    transform: translateX(-8%) rotate(-1deg);
+  }
+
+  .prototype-record-drawer .record-card:nth-child(4n + 1).is-open .shelf-vinyl {
+    transform: translateX(54%) rotate(6deg) scale(1.04);
   }
 
   .prototype-record-drawer .sleeve-row {
