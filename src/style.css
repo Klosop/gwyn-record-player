@@ -1567,9 +1567,12 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   grid-column: auto;
 }
 
-.prototype-record-drawer .record-card.is-open,
-.prototype-record-drawer .record-card.is-vinyl-dragging {
+.prototype-record-drawer .record-card.is-open {
   z-index: 12;
+}
+
+.prototype-record-drawer .record-card.is-vinyl-dragging {
+  z-index: 16;
 }
 
 .prototype-record-drawer .record-card.is-open .sleeve-art {
