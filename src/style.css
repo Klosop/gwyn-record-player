@@ -1412,7 +1412,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 .collection-drawer-handle { display: none; }
 
 .prototype-record-drawer .collection {
-  --shelf-card-size: clamp(112px, 9.5vw, 132px);
+  --shelf-card-size: clamp(120px, 10vw, 142px);
   position: fixed;
   z-index: 500;
   top: 50%;
@@ -1486,7 +1486,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   position: absolute;
   z-index: 20;
   top: 50%;
-  left: -82px;
+  left: -94px;
   display: grid;
   width: 84px;
   min-height: 156px;
@@ -1551,9 +1551,9 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   grid-template-columns: repeat(3, minmax(0, var(--shelf-card-size)));
   max-height: none;
   overflow: visible;
-  padding: 44px 4px 68px;
-  column-gap: clamp(10px, 1.2vw, 16px);
-  row-gap: 58px;
+  padding: 22px 2px 64px;
+  column-gap: clamp(8px, .8vw, 10px);
+  row-gap: 34px;
 }
 
 .prototype-record-drawer .sleeve-row::before,
@@ -1568,7 +1568,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 
 @media (min-width: 651px) and (max-width: 960px) {
   .prototype-record-drawer .collection {
-    --shelf-card-size: clamp(96px, 12vw, 110px);
+    --shelf-card-size: clamp(92px, 13vw, 124px);
     width: min(480px, 58vw);
   }
 }
@@ -1583,7 +1583,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
     right: 0;
     bottom: 0;
     left: 0;
-    --shelf-card-size: clamp(64px, 21vw, 86px);
+    --shelf-card-size: clamp(68px, 22vw, 92px);
     width: 100%;
     max-height: 64dvh;
     padding-top: 18px;
@@ -1655,9 +1655,9 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   .prototype-record-drawer .sleeve-row {
     grid-template-columns: repeat(4, minmax(0, var(--shelf-card-size)));
     max-height: none;
-    padding: 48px 2px 54px;
-    column-gap: clamp(5px, 1.8vw, 9px);
-    row-gap: 56px;
+    padding: 24px 1px 54px;
+    column-gap: clamp(3px, 1.2vw, 5px);
+    row-gap: 34px;
   }
 
   .prototype-record-drawer .sleeve-caption {
