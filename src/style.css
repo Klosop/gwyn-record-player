@@ -1576,7 +1576,6 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 }
 
 .prototype-record-drawer .record-card.is-open .shelf-vinyl {
-  z-index: 8;
   transform: translateX(58%) rotate(6deg) scale(1.04);
 }
 
