@@ -10,7 +10,7 @@
     />
     <title>A little record player</title>
   </head>
-  <body>
+  <body class="prototype-record-drawer">
     <div class="gift-intro" id="gift-intro" role="dialog" aria-modal="true" aria-label="A gift is waiting">
       <div class="intro-spotlight" aria-hidden="true"></div>
       <div class="intro-presentation">
@@ -79,6 +79,11 @@
           <time class="elapsed-note" id="elapsed-time" aria-label="No playback time available">--:-- / --:--</time>
         </aside>
         <section class="collection" aria-labelledby="collection-title" id="record-shelf" data-drop-zone="shelf">
+          <button class="collection-drawer-handle" id="collection-drawer-handle" type="button" aria-expanded="false" aria-controls="record-shelf">
+            <span aria-hidden="true">♪</span>
+            <b>records</b>
+            <i aria-hidden="true">open</i>
+          </button>
           <div class="collection-heading">
             <h2 id="collection-title">the little record shelf</h2>
             <span>tap to open · double tap to play · drag vinyl</span>

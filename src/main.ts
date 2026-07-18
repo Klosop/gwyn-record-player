@@ -95,6 +95,28 @@ const nowPlaying = find<HTMLElement>("#now-playing");
 const shelf = find<HTMLElement>("#record-shelf");
 const sleeveRow = find<HTMLDivElement>("#sleeve-row");
 const lyricLayer = find<HTMLDivElement>("#lyric-layer");
+const drawerHandle = find<HTMLButtonElement>("#collection-drawer-handle");
+
+function setRecordDrawerOpen(open: boolean): void {
+  document.body.classList.toggle("is-record-drawer-open", open);
+  drawerHandle.setAttribute("aria-expanded", String(open));
+  const action = drawerHandle.querySelector<HTMLElement>("i");
+  if (action) action.textContent = open ? "close" : "open";
+}
+
+drawerHandle.addEventListener("click", () => {
+  const willOpen = !document.body.classList.contains("is-record-drawer-open");
+  if (willOpen) {
+    stage.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.setTimeout(() => setRecordDrawerOpen(true), 180);
+  } else {
+    setRecordDrawerOpen(false);
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setRecordDrawerOpen(false);
+});
 
 let state: PlayerState = initialPlayerState;
 let noticeTimer: number | undefined;
