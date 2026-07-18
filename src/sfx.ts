@@ -119,15 +119,15 @@ export function playSfx(name: SfxName, intensity = 1): void {
       knock(ctx, now + 0.105, level * 0.09, 145);
       break;
     case "drawerOpen":
-      noise(ctx, now, 0.46, level * 0.16, 640);
-      noise(ctx, now + 0.08, 0.34, level * 0.09, 1650, "highpass");
-      knock(ctx, now + 0.39, level * 0.075, 118);
+      noise(ctx, now, 0.48, level * 0.16, 640);
+      noise(ctx, now + 0.08, 0.36, level * 0.09, 1650, "highpass");
+      knock(ctx, now + 0.46, level * 0.075, 118);
       break;
     case "drawerClose":
-      noise(ctx, now, 0.38, level * 0.15, 590);
-      noise(ctx, now + 0.04, 0.28, level * 0.075, 1420, "highpass");
-      knock(ctx, now + 0.31, level * 0.13, 104);
-      knock(ctx, now + 0.345, level * 0.055, 72);
+      noise(ctx, now, 0.46, level * 0.15, 590);
+      noise(ctx, now + 0.04, 0.34, level * 0.075, 1420, "highpass");
+      knock(ctx, now + 0.43, level * 0.13, 104);
+      knock(ctx, now + 0.465, level * 0.055, 72);
       break;
     case "recordToSleeve":
       noise(ctx, now, 0.24, level * 0.2, 720);

@@ -1435,12 +1435,27 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
     inset 0 14px 24px rgba(72,37,31,.2),
     -7px 0 0 #563328,
     -20px 20px 38px rgba(68,40,43,.3);
+  opacity: 1;
+  filter: saturate(1);
   transform: translate(100%, -50%);
-  transition: transform .5s cubic-bezier(.22,.82,.24,1);
+  transition:
+    transform .5s cubic-bezier(.22,.82,.24,1),
+    opacity .28s ease,
+    filter .28s ease;
 }
 
 .prototype-record-drawer.is-record-drawer-open .collection {
   transform: translate(0, -50%);
+}
+
+.prototype-record-drawer.is-record-drawer-pulling .collection {
+  transition: none;
+}
+
+.prototype-record-drawer.is-record-drawer-open.is-drawer-vinyl-dragging .collection {
+  opacity: .48;
+  filter: saturate(.72);
+  transform: translate(12%, -50%);
 }
 
 .prototype-record-drawer .collection::before,
@@ -1504,8 +1519,18 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
     -7px 9px 18px rgba(65,38,39,.28),
     inset 4px 0 rgba(255,224,181,.12),
     inset 0 0 0 2px rgba(71,38,31,.28);
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
   transform: translateY(-50%);
+}
+
+.prototype-record-drawer .collection-drawer-handle:active {
+  cursor: grabbing;
+}
+
+.prototype-record-drawer.needs-drawer-hint .collection-drawer-handle {
+  animation: drawer-handle-hint 1.8s ease-in-out 6.4s 2;
 }
 
 .prototype-record-drawer .collection-drawer-handle span {
@@ -1575,6 +1600,22 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   z-index: 16;
 }
 
+.prototype-record-drawer .record-card.is-return-target {
+  z-index: 24;
+}
+
+.prototype-record-drawer .record-card.is-return-target .sleeve-art {
+  box-shadow:
+    0 0 0 4px rgba(255,244,193,.96),
+    0 0 24px 9px rgba(255,218,142,.52),
+    0 14px 20px rgba(83,52,57,.27);
+  animation: return-sleeve-pulse .72s ease-in-out infinite alternate;
+}
+
+.prototype-record-drawer .record-card.is-gift-note-open {
+  z-index: 20;
+}
+
 .prototype-record-drawer .record-card.is-open .sleeve-art {
   transform: translateX(-10%) rotate(-1deg);
 }
@@ -1620,6 +1661,10 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
     transform: translateY(0);
   }
 
+  .prototype-record-drawer.is-record-drawer-open.is-drawer-vinyl-dragging .collection {
+    transform: translateY(16%);
+  }
+
   .prototype-record-drawer .collection::before {
     inset: 12px 8px 8px;
     border-radius: 9px 9px 0 0;
@@ -1653,6 +1698,10 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
     transform: translateX(-50%);
   }
 
+  .prototype-record-drawer.needs-drawer-hint .collection-drawer-handle {
+    animation-name: drawer-handle-hint-mobile;
+  }
+
   .prototype-record-drawer .collection-drawer-handle b {
     padding: 7px 12px;
     font-size: .84rem;
@@ -1672,7 +1721,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   .prototype-record-drawer .sleeve-row {
     grid-template-columns: repeat(4, minmax(0, var(--shelf-card-size)));
     max-height: none;
-    padding: 8px 1px 54px;
+    padding: 8px 1px calc(54px + env(safe-area-inset-bottom, 0px));
     column-gap: clamp(3px, 1.2vw, 5px);
     row-gap: 18px;
   }
@@ -1690,8 +1739,56 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   }
 }
 
+@media (max-height: 650px) and (min-width: 651px) {
+  .prototype-record-drawer .collection {
+    --shelf-card-size: clamp(88px, 16dvh, 104px);
+    max-height: 96dvh;
+  }
+
+  .prototype-record-drawer .sleeve-row {
+    grid-template-columns: repeat(4, minmax(0, var(--shelf-card-size)));
+    padding-top: 4px;
+    padding-bottom: 38px;
+    row-gap: 12px;
+  }
+}
+
+@media (max-height: 650px) and (max-width: 650px) {
+  .prototype-record-drawer .collection {
+    --shelf-card-size: clamp(60px, 15dvh, 78px);
+    max-height: 78dvh;
+  }
+
+  .prototype-record-drawer .sleeve-row {
+    padding-top: 2px;
+    padding-bottom: calc(36px + env(safe-area-inset-bottom, 0px));
+    row-gap: 10px;
+  }
+}
+
+@keyframes drawer-handle-hint {
+  0%, 100% { filter: brightness(1); }
+  35% { filter: brightness(1.18) drop-shadow(-5px 0 8px rgba(255,221,149,.48)); }
+  55% { translate: -8px 0; }
+  72% { translate: 2px 0; }
+}
+
+@keyframes drawer-handle-hint-mobile {
+  0%, 100% { filter: brightness(1); }
+  35% { filter: brightness(1.18) drop-shadow(0 -5px 8px rgba(255,221,149,.48)); }
+  55% { translate: 0 -7px; }
+  72% { translate: 0 2px; }
+}
+
+@keyframes return-sleeve-pulse {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.08); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .prototype-record-drawer .collection-drawer-handle,
+  .prototype-record-drawer .record-card.is-return-target .sleeve-art { animation: none !important; }
   .is-playing .loaded-record { animation: none; }
   .gift-note { animation: none !important; transition: none; }
   .gift-note i { animation: none !important; }
