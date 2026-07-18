@@ -816,9 +816,16 @@ async function animateGhostToSleeve(
   fromTransform: string,
   size: number,
 ): Promise<void> {
+  const drawerWasOpen = document.body.classList.contains("is-record-drawer-open");
+  if (!drawerWasOpen) {
+    setRecordDrawerOpen(true);
+    await new Promise<void>((resolve) => window.setTimeout(resolve, 520));
+  }
+
   const sleeve = card.querySelector<HTMLButtonElement>(".sleeve-art");
   if (!sleeve) {
     activeGhost.remove();
+    if (!drawerWasOpen) setRecordDrawerOpen(false);
     return;
   }
 
@@ -846,6 +853,10 @@ async function animateGhostToSleeve(
     stage.classList.remove("is-loaded-record-moving");
     card.classList.remove("is-vinyl-dragging");
     document.body.classList.remove("is-record-dragging");
+    if (!drawerWasOpen) {
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 180));
+      setRecordDrawerOpen(false);
+    }
   }
 }
 
@@ -861,12 +872,6 @@ async function returnLoadedRecordToSleeve(): Promise<boolean> {
   const vinyl = card?.querySelector<HTMLElement>(".shelf-vinyl");
   if (!card || !vinyl) return false;
 
-  const drawerWasOpen = document.body.classList.contains("is-record-drawer-open");
-  if (!drawerWasOpen) {
-    setRecordDrawerOpen(true);
-    await new Promise<void>((resolve) => window.setTimeout(resolve, 520));
-  }
-
   const sourceRect = loadedRecord.getBoundingClientRect();
   const size = sourceRect.width;
   const activeGhost = createVinylDragGhost(card, vinyl, size);
@@ -874,10 +879,6 @@ async function returnLoadedRecordToSleeve(): Promise<boolean> {
   activeGhost.style.transform = fromTransform;
   document.body.append(activeGhost);
   await animateGhostToSleeve(activeGhost, card, fromTransform, size);
-  if (!drawerWasOpen) {
-    await new Promise<void>((resolve) => window.setTimeout(resolve, 180));
-    setRecordDrawerOpen(false);
-  }
   return true;
 }
 

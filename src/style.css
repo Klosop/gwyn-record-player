@@ -1412,12 +1412,12 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 .collection-drawer-handle { display: none; }
 
 .prototype-record-drawer .collection {
-  --shelf-card-size: clamp(82px, 7.2vw, 96px);
+  --shelf-card-size: clamp(100px, 8.5vw, 118px);
   position: fixed;
   z-index: 500;
   top: 50%;
   right: 0;
-  width: min(520px, 46vw);
+  width: min(620px, 55vw);
   max-height: min(92dvh, 760px);
   margin: 0;
   overflow: visible;
@@ -1551,9 +1551,9 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   grid-template-columns: repeat(4, minmax(0, var(--shelf-card-size)));
   max-height: none;
   overflow: visible;
-  padding: 62px 4px 72px;
+  padding: 64px 4px 80px;
   column-gap: clamp(8px, 1vw, 12px);
-  row-gap: 74px;
+  row-gap: 82px;
 }
 
 .prototype-record-drawer .sleeve-row::before,
@@ -1576,7 +1576,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
     right: 0;
     bottom: 0;
     left: 0;
-    --shelf-card-size: clamp(64px, 19vw, 78px);
+    --shelf-card-size: clamp(64px, 21vw, 86px);
     width: 100%;
     max-height: 64dvh;
     padding-top: 18px;
