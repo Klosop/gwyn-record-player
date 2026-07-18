@@ -8,6 +8,8 @@
 
 *A tiny interactive vinyl shelf made as a digital keepsake—best enjoyed slowly, with headphones.*
 
+### [▶ spin a record in your browser ♡](https://klosop.github.io/gwyn-record-player/)
+
 `Vite` · `TypeScript` · `Web Audio` · `GitHub Pages`
 
 ₊˚⊹ 𐙚 **eight records · handwritten notes · one very special listener** 𐙚 ⊹˚₊
