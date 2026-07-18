@@ -1407,8 +1407,388 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
   .record-card:nth-child(8) { grid-column: auto; }
 }
 
+
+/* Record-crate prototype: the shelf becomes part of the listening station. */
+.collection-drawer-handle { display: none; }
+
+.prototype-record-drawer .collection {
+  --shelf-card-size: clamp(120px, 10vw, 142px);
+  position: fixed;
+  z-index: 500;
+  top: 50%;
+  right: 0;
+  width: min(520px, 46vw);
+  max-height: min(92dvh, 760px);
+  margin: 0;
+  padding-top: 8px;
+  overflow: visible;
+  isolation: isolate;
+  border: 14px solid #754737;
+  border-right: 0;
+  border-radius: 22px 0 0 22px;
+  background:
+    repeating-linear-gradient(92deg, rgba(255,239,208,.045) 0 2px, transparent 2px 42px),
+    linear-gradient(145deg, #bf8564, #9a604b 62%, #824d3e);
+  box-shadow:
+    inset 0 0 0 4px rgba(255,225,183,.18),
+    inset 18px 0 26px rgba(62,31,27,.28),
+    inset 0 14px 24px rgba(72,37,31,.2),
+    -7px 0 0 #563328,
+    -20px 20px 38px rgba(68,40,43,.3);
+  opacity: 1;
+  filter: saturate(1);
+  transform: translate(100%, -50%);
+  transition:
+    transform .5s cubic-bezier(.22,.82,.24,1),
+    opacity .28s ease,
+    filter .28s ease;
+}
+
+.prototype-record-drawer.is-record-drawer-open .collection {
+  transform: translate(0, -50%);
+}
+
+.prototype-record-drawer.is-record-drawer-pulling .collection {
+  transition: none;
+}
+
+.prototype-record-drawer.is-record-drawer-open.is-drawer-vinyl-dragging .collection {
+  opacity: .48;
+  filter: saturate(.72);
+  transform: translate(12%, -50%);
+}
+
+.prototype-record-drawer .collection::before,
+.prototype-record-drawer .collection::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.prototype-record-drawer .collection::before {
+  z-index: 0;
+  inset: 10px 8px 10px 18px;
+  border: 2px solid rgba(73,38,31,.48);
+  border-radius: 10px 0 0 10px;
+  background:
+    linear-gradient(rgba(60,31,28,.2), transparent 32px),
+    repeating-linear-gradient(90deg, rgba(255,236,199,.035) 0 1px, transparent 1px 35px);
+  box-shadow:
+    inset 0 13px 18px rgba(48,24,22,.3),
+    inset 12px 0 18px rgba(48,24,22,.18);
+}
+
+.prototype-record-drawer .collection::after {
+  z-index: 4;
+  top: 8px;
+  bottom: 8px;
+  left: -10px;
+  width: 22px;
+  border: 2px solid #5e372c;
+  border-radius: 8px 3px 3px 8px;
+  background:
+    repeating-linear-gradient(4deg, rgba(255,240,204,.08) 0 2px, transparent 2px 23px),
+    linear-gradient(90deg, #9b624c, #704235);
+  box-shadow: 5px 0 9px rgba(50,25,23,.24), inset 3px 0 rgba(255,218,172,.12);
+}
+
+.prototype-record-drawer .collection-heading,
+.prototype-record-drawer .sleeve-row {
+  position: relative;
+  z-index: 2;
+}
+
+.prototype-record-drawer .collection-drawer-handle {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: -94px;
+  display: grid;
+  width: 84px;
+  min-height: 156px;
+  place-items: center;
+  padding: 15px 9px;
+  border: 6px solid #654035;
+  border-right: 0;
+  border-radius: 14px 0 0 14px;
+  color: #f8e8c8;
+  background:
+    repeating-linear-gradient(4deg, rgba(255,241,209,.08) 0 2px, transparent 2px 27px),
+    linear-gradient(115deg, #aa7055, #85513f 58%, #704235);
+  box-shadow:
+    -7px 9px 18px rgba(65,38,39,.28),
+    inset 4px 0 rgba(255,224,181,.12),
+    inset 0 0 0 2px rgba(71,38,31,.28);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transform: translateY(-50%);
+}
+
+.prototype-record-drawer .collection-drawer-handle:active {
+  cursor: grabbing;
+}
+
+.prototype-record-drawer.needs-drawer-hint .collection-drawer-handle {
+  animation: drawer-handle-hint 1.8s ease-in-out 6.4s 2;
+}
+
+.prototype-record-drawer .collection-drawer-handle span {
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  border: 2px solid #6f5325;
+  border-radius: 50%;
+  color: transparent;
+  background:
+    radial-gradient(circle at 35% 28%, #fff1a9 0 8%, #c79b45 28%, #836128 62%, #4d381a 100%);
+  box-shadow:
+    0 3px 5px rgba(43,25,19,.4),
+    inset 0 1px 2px rgba(255,246,184,.7),
+    0 0 0 3px rgba(74,43,27,.28);
+}
+
+.prototype-record-drawer .collection-drawer-handle b {
+  padding: 7px 4px;
+  border: 1px solid #6f512e;
+  border-radius: 3px;
+  color: #513a2d;
+  background: linear-gradient(#ead39c, #caa96d);
+  box-shadow: inset 0 0 0 2px rgba(255,241,190,.32), 0 2px 3px rgba(45,27,22,.25);
+  font-family: Georgia, serif;
+  font-size: .72rem;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-shadow: 0 1px rgba(255,246,204,.55);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.prototype-record-drawer .collection-drawer-handle i {
+  opacity: .75;
+  font-size: .55rem;
+  font-style: normal;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.prototype-record-drawer .sleeve-row {
+  grid-template-columns: repeat(3, minmax(0, var(--shelf-card-size)));
+  max-height: none;
+  overflow: visible;
+  padding: 8px 2px 64px;
+  column-gap: clamp(8px, .8vw, 10px);
+  row-gap: 18px;
+}
+
+.prototype-record-drawer .sleeve-row::before,
+.prototype-record-drawer .sleeve-row::after {
+  display: none;
+}
+
+.prototype-record-drawer .record-card:nth-child(7),
+.prototype-record-drawer .record-card:nth-child(8) {
+  grid-column: auto;
+}
+
+.prototype-record-drawer .record-card.is-open {
+  z-index: 12;
+}
+
+.prototype-record-drawer .record-card.is-vinyl-dragging {
+  z-index: 16;
+}
+
+.prototype-record-drawer .record-card.is-return-target {
+  z-index: 24;
+}
+
+.prototype-record-drawer .record-card.is-return-target .sleeve-art {
+  box-shadow:
+    0 0 0 4px rgba(255,244,193,.96),
+    0 0 24px 9px rgba(255,218,142,.52),
+    0 14px 20px rgba(83,52,57,.27);
+  animation: return-sleeve-pulse .72s ease-in-out infinite alternate;
+}
+
+.prototype-record-drawer .record-card.is-gift-note-open {
+  z-index: 20;
+}
+
+.prototype-record-drawer .record-card.is-open .sleeve-art {
+  transform: translateX(-10%) rotate(-1deg);
+}
+
+.prototype-record-drawer .record-card.is-open .shelf-vinyl {
+  transform: translateX(58%) rotate(6deg) scale(1.04);
+}
+
+@media (min-width: 651px) and (max-width: 960px) {
+  .prototype-record-drawer .collection {
+    --shelf-card-size: clamp(92px, 13vw, 124px);
+    width: min(480px, 58vw);
+  }
+}
+
+@media (max-width: 650px) {
+  .prototype-record-drawer .page-shell {
+    padding-bottom: 80px;
+  }
+
+  .prototype-record-drawer .collection {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    --shelf-card-size: clamp(68px, 22vw, 92px);
+    width: 100%;
+    max-height: 64dvh;
+    padding-top: 6px;
+    border: 12px solid #754737;
+    border-bottom: 0;
+    border-radius: 22px 22px 0 0;
+    overflow: visible;
+    box-shadow:
+      inset 0 0 0 4px rgba(255,225,183,.18),
+      inset 0 18px 26px rgba(62,31,27,.22),
+      0 -7px 0 #563328,
+      0 -20px 38px rgba(68,40,43,.32);
+    transform: translateY(100%);
+  }
+
+  .prototype-record-drawer.is-record-drawer-open .collection {
+    transform: translateY(0);
+  }
+
+  .prototype-record-drawer.is-record-drawer-open.is-drawer-vinyl-dragging .collection {
+    transform: translateY(16%);
+  }
+
+  .prototype-record-drawer .collection::before {
+    inset: 12px 8px 8px;
+    border-radius: 9px 9px 0 0;
+  }
+
+  .prototype-record-drawer .collection::after {
+    top: -5px;
+    right: 7px;
+    bottom: auto;
+    left: 7px;
+    width: auto;
+    height: 24px;
+    border-radius: 9px 9px 3px 3px;
+    background:
+      repeating-linear-gradient(92deg, rgba(255,240,204,.08) 0 2px, transparent 2px 28px),
+      linear-gradient(#9b624c, #704235);
+    box-shadow: 0 6px 9px rgba(50,25,23,.28), inset 0 3px rgba(255,218,172,.12);
+  }
+
+  .prototype-record-drawer .collection-drawer-handle {
+    top: -64px;
+    left: 50%;
+    width: 214px;
+    min-height: 66px;
+    grid-template-columns: auto 1fr auto;
+    column-gap: 12px;
+    padding: 10px 17px;
+    border: 6px solid #654035;
+    border-bottom: 0;
+    border-radius: 15px 15px 0 0;
+    transform: translateX(-50%);
+  }
+
+  .prototype-record-drawer.needs-drawer-hint .collection-drawer-handle {
+    animation-name: drawer-handle-hint-mobile;
+  }
+
+  .prototype-record-drawer .collection-drawer-handle b {
+    padding: 7px 12px;
+    font-size: .84rem;
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .prototype-record-drawer .collection-heading {
+    align-items: center;
+  }
+
+  .prototype-record-drawer .collection-heading span {
+    max-width: 46%;
+    text-align: right;
+  }
+
+  .prototype-record-drawer .sleeve-row {
+    grid-template-columns: repeat(4, minmax(0, var(--shelf-card-size)));
+    max-height: none;
+    padding: 8px 1px calc(54px + env(safe-area-inset-bottom, 0px));
+    column-gap: clamp(3px, 1.2vw, 5px);
+    row-gap: 18px;
+  }
+
+  .prototype-record-drawer .sleeve-caption {
+    margin-top: 7px;
+  }
+
+  .prototype-record-drawer .sleeve-caption strong {
+    font-size: clamp(.55rem, 2.3vw, .68rem);
+  }
+
+  .prototype-record-drawer .sleeve-caption small {
+    font-size: clamp(.48rem, 2vw, .58rem);
+  }
+}
+
+@media (max-height: 650px) and (min-width: 651px) {
+  .prototype-record-drawer .collection {
+    --shelf-card-size: clamp(88px, 16dvh, 104px);
+    max-height: 96dvh;
+  }
+
+  .prototype-record-drawer .sleeve-row {
+    grid-template-columns: repeat(4, minmax(0, var(--shelf-card-size)));
+    padding-top: 4px;
+    padding-bottom: 38px;
+    row-gap: 12px;
+  }
+}
+
+@media (max-height: 650px) and (max-width: 650px) {
+  .prototype-record-drawer .collection {
+    --shelf-card-size: clamp(60px, 15dvh, 78px);
+    max-height: 78dvh;
+  }
+
+  .prototype-record-drawer .sleeve-row {
+    padding-top: 2px;
+    padding-bottom: calc(36px + env(safe-area-inset-bottom, 0px));
+    row-gap: 10px;
+  }
+}
+
+@keyframes drawer-handle-hint {
+  0%, 100% { filter: brightness(1); }
+  35% { filter: brightness(1.18) drop-shadow(-5px 0 8px rgba(255,221,149,.48)); }
+  55% { translate: -8px 0; }
+  72% { translate: 2px 0; }
+}
+
+@keyframes drawer-handle-hint-mobile {
+  0%, 100% { filter: brightness(1); }
+  35% { filter: brightness(1.18) drop-shadow(0 -5px 8px rgba(255,221,149,.48)); }
+  55% { translate: 0 -7px; }
+  72% { translate: 0 2px; }
+}
+
+@keyframes return-sleeve-pulse {
+  from { filter: brightness(1); }
+  to { filter: brightness(1.08); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .prototype-record-drawer .collection-drawer-handle,
+  .prototype-record-drawer .record-card.is-return-target .sleeve-art { animation: none !important; }
   .is-playing .loaded-record { animation: none; }
   .gift-note { animation: none !important; transition: none; }
   .gift-note i { animation: none !important; }

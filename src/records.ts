@@ -25,7 +25,7 @@ export const DIM_FADE_SECONDS = 4;
 export const ENABLE_VINYL_SHINE = true;
 export const USE_SLEEVE_ART_ON_VINYL_LABEL = true;
 export const SHOW_VINYL_LABEL_TEXT = true;
-export const SKIP_UNBOXING_INTRO = true;
+export const SKIP_UNBOXING_INTRO = false;
 export const INTRO_OBTAINED_SECONDS = 2.8;
 
 export interface DimWindow {

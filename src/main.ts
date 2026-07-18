@@ -95,6 +95,137 @@ const nowPlaying = find<HTMLElement>("#now-playing");
 const shelf = find<HTMLElement>("#record-shelf");
 const sleeveRow = find<HTMLDivElement>("#sleeve-row");
 const lyricLayer = find<HTMLDivElement>("#lyric-layer");
+const drawerHandle = find<HTMLButtonElement>("#collection-drawer-handle");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const DRAWER_TRANSITION_MS = reducedMotion ? 20 : 500;
+let suppressDrawerHandleClick = false;
+sleeveRow.inert = true;
+sleeveRow.setAttribute("aria-hidden", "true");
+
+function markDrawerDiscovered(): void {
+  document.body.classList.remove("needs-drawer-hint");
+  try {
+    window.sessionStorage.setItem("record-drawer-discovered", "1");
+  } catch {
+    // The hint still dismisses for this page when storage is unavailable.
+  }
+}
+
+try {
+  if (!reducedMotion && !window.sessionStorage.getItem("record-drawer-discovered")) {
+    document.body.classList.add("needs-drawer-hint");
+  }
+} catch {
+  if (!reducedMotion) document.body.classList.add("needs-drawer-hint");
+}
+
+function setRecordDrawerOpen(open: boolean): void {
+  markDrawerDiscovered();
+  shelf.style.removeProperty("transform");
+  shelf.style.removeProperty("transition");
+  document.body.classList.remove("is-record-drawer-pulling");
+  const wasOpen = document.body.classList.contains("is-record-drawer-open");
+  if (wasOpen === open) return;
+  playSfx(open ? "drawerOpen" : "drawerClose");
+  document.body.classList.toggle("is-record-drawer-open", open);
+  sleeveRow.inert = !open;
+  sleeveRow.setAttribute("aria-hidden", String(!open));
+  drawerHandle.setAttribute("aria-expanded", String(open));
+  const action = drawerHandle.querySelector<HTMLElement>("i");
+  if (action) action.textContent = open ? "close" : "open";
+}
+
+async function closeDrawerAfterLoad(): Promise<void> {
+  await new Promise<void>((resolve) => window.setTimeout(resolve, reducedMotion ? 20 : 140));
+  const returnFocusToHandle = sleeveRow.contains(document.activeElement);
+  if (returnFocusToHandle) drawerHandle.focus();
+  setRecordDrawerOpen(false);
+}
+
+drawerHandle.addEventListener("click", (event) => {
+  if (suppressDrawerHandleClick) {
+    suppressDrawerHandleClick = false;
+    return;
+  }
+  markDrawerDiscovered();
+  const willOpen = !document.body.classList.contains("is-record-drawer-open");
+  if (willOpen) {
+    stage.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    window.setTimeout(() => {
+      setRecordDrawerOpen(true);
+      if (event.detail === 0) {
+        shelf.querySelector<HTMLButtonElement>(".sleeve-art")?.focus();
+      }
+    }, reducedMotion ? 0 : 180);
+  } else {
+    setRecordDrawerOpen(false);
+  }
+});
+
+{
+  let pointerId: number | null = null;
+  let startPosition = 0;
+  let startTime = 0;
+  let initialOpen = false;
+  let progress = 0;
+  let moved = false;
+  let mobileGesture = false;
+
+  drawerHandle.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    markDrawerDiscovered();
+    pointerId = event.pointerId;
+    mobileGesture = window.matchMedia("(max-width: 650px)").matches;
+    startPosition = mobileGesture ? event.clientY : event.clientX;
+    startTime = performance.now();
+    initialOpen = document.body.classList.contains("is-record-drawer-open");
+    progress = initialOpen ? 1 : 0;
+    moved = false;
+    drawerHandle.setPointerCapture(event.pointerId);
+    document.body.classList.add("is-record-drawer-pulling");
+    shelf.style.transition = "none";
+  });
+
+  drawerHandle.addEventListener("pointermove", (event) => {
+    if (pointerId !== event.pointerId) return;
+    const position = mobileGesture ? event.clientY : event.clientX;
+    const delta = position - startPosition;
+    const size = Math.max(1, mobileGesture ? shelf.offsetHeight : shelf.offsetWidth);
+    if (Math.abs(delta) > 4) moved = true;
+    if (!moved) return;
+    event.preventDefault();
+    progress = Math.max(0, Math.min(1, initialOpen ? 1 - delta / size : -delta / size));
+    const offset = (1 - progress) * size;
+    shelf.style.transform = mobileGesture
+      ? "translateY(" + String(offset) + "px)"
+      : "translate(" + String(offset) + "px, -50%)";
+  });
+
+  const finishDrawerPull = (event: PointerEvent): void => {
+    if (pointerId !== event.pointerId) return;
+    if (drawerHandle.hasPointerCapture(event.pointerId)) {
+      drawerHandle.releasePointerCapture(event.pointerId);
+    }
+    const position = mobileGesture ? event.clientY : event.clientX;
+    const elapsed = Math.max(1, performance.now() - startTime);
+    const velocity = (position - startPosition) / elapsed;
+    pointerId = null;
+    suppressDrawerHandleClick = moved;
+    const shouldOpen = initialOpen
+      ? velocity > .45 ? false : progress >= .46
+      : velocity < -.45 ? true : progress >= .46;
+    setRecordDrawerOpen(event.type === "pointercancel" ? initialOpen : shouldOpen);
+  };
+
+  drawerHandle.addEventListener("pointerup", finishDrawerPull);
+  drawerHandle.addEventListener("pointercancel", finishDrawerPull);
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || !document.body.classList.contains("is-record-drawer-open")) return;
+  drawerHandle.focus();
+  setRecordDrawerOpen(false);
+});
 
 let state: PlayerState = initialPlayerState;
 let noticeTimer: number | undefined;
@@ -791,9 +922,18 @@ async function animateGhostToSleeve(
   fromTransform: string,
   size: number,
 ): Promise<void> {
+  const drawerWasOpen = document.body.classList.contains("is-record-drawer-open");
+  card.classList.add("is-return-target");
+  if (!drawerWasOpen) {
+    setRecordDrawerOpen(true);
+    await new Promise<void>((resolve) => window.setTimeout(resolve, DRAWER_TRANSITION_MS + 20));
+  }
+
   const sleeve = card.querySelector<HTMLButtonElement>(".sleeve-art");
   if (!sleeve) {
     activeGhost.remove();
+    card.classList.remove("is-return-target");
+    if (!drawerWasOpen) setRecordDrawerOpen(false);
     return;
   }
 
@@ -820,7 +960,12 @@ async function animateGhostToSleeve(
     activeGhost.remove();
     stage.classList.remove("is-loaded-record-moving");
     card.classList.remove("is-vinyl-dragging");
+    card.classList.remove("is-return-target");
     document.body.classList.remove("is-record-dragging");
+    if (!drawerWasOpen) {
+      await new Promise<void>((resolve) => window.setTimeout(resolve, reducedMotion ? 20 : 150));
+      setRecordDrawerOpen(false);
+    }
   }
 }
 
@@ -835,6 +980,7 @@ async function returnLoadedRecordToSleeve(): Promise<boolean> {
   const card = cards.find((item) => item.dataset.recordId === recordId);
   const vinyl = card?.querySelector<HTMLElement>(".shelf-vinyl");
   if (!card || !vinyl) return false;
+
   const sourceRect = loadedRecord.getBoundingClientRect();
   const size = sourceRect.width;
   const activeGhost = createVinylDragGhost(card, vinyl, size);
@@ -884,6 +1030,7 @@ async function animateShelfRecordToPlatter(
     activeGhost.remove();
     card.classList.remove("is-vinyl-dragging");
     document.body.classList.remove("is-record-dragging");
+    if (state.activeRecordId === recordId) await closeDrawerAfterLoad();
   }
 }
 
@@ -907,10 +1054,10 @@ async function transitionDraggedRecordToPlatter(
   waitingTransform: string,
   size: number,
 ): Promise<void> {
+  const recordId = card.dataset.recordId;
   try {
     if (state.activeRecordId && !(await returnLoadedRecordToSleeve())) return;
 
-    const recordId = card.dataset.recordId;
     if (!recordId) return;
     const platterRect = platter.getBoundingClientRect();
     const targetRect = new DOMRect(
@@ -935,7 +1082,8 @@ async function transitionDraggedRecordToPlatter(
   } finally {
     activeGhost.remove();
     card.classList.remove("is-vinyl-dragging");
-    document.body.classList.remove("is-record-dragging");
+    document.body.classList.remove("is-record-dragging", "is-drawer-vinyl-dragging");
+    if (recordId && state.activeRecordId === recordId) await closeDrawerAfterLoad();
     recordTransitioning = false;
   }
 }
@@ -1202,7 +1350,7 @@ function installPhysicalDrag(vinyl: HTMLElement, card: HTMLDivElement): void {
       playSfx("vinylPickup");
       document.body.append(ghost);
       card.classList.add("is-vinyl-dragging");
-      document.body.classList.add("is-record-dragging");
+      document.body.classList.add("is-record-dragging", "is-drawer-vinyl-dragging");
     }
     if (ghost) {
       event.preventDefault();
@@ -1283,7 +1431,7 @@ function installPhysicalDrag(vinyl: HTMLElement, card: HTMLDivElement): void {
     const settle = (): void => {
       activeGhost.remove();
       card.classList.remove("is-vinyl-dragging");
-      document.body.classList.remove("is-record-dragging");
+      document.body.classList.remove("is-record-dragging", "is-drawer-vinyl-dragging");
     };
 
     if (replacingLoadedRecord) {
@@ -1308,7 +1456,13 @@ function installPhysicalDrag(vinyl: HTMLElement, card: HTMLDivElement): void {
           { duration: 190, easing: "ease-out", fill: "forwards" },
         );
         return fadeAnimation.finished;
-      }).then(settle, settle);
+      }).then(
+        async () => {
+          settle();
+          await closeDrawerAfterLoad();
+        },
+        settle,
+      );
     } else {
       void snapAnimation.finished.then(settle, settle);
     }
