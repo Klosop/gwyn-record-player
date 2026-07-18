@@ -860,6 +860,13 @@ async function returnLoadedRecordToSleeve(): Promise<boolean> {
   const card = cards.find((item) => item.dataset.recordId === recordId);
   const vinyl = card?.querySelector<HTMLElement>(".shelf-vinyl");
   if (!card || !vinyl) return false;
+
+  const drawerWasOpen = document.body.classList.contains("is-record-drawer-open");
+  if (!drawerWasOpen) {
+    setRecordDrawerOpen(true);
+    await new Promise<void>((resolve) => window.setTimeout(resolve, 520));
+  }
+
   const sourceRect = loadedRecord.getBoundingClientRect();
   const size = sourceRect.width;
   const activeGhost = createVinylDragGhost(card, vinyl, size);
@@ -867,6 +874,10 @@ async function returnLoadedRecordToSleeve(): Promise<boolean> {
   activeGhost.style.transform = fromTransform;
   document.body.append(activeGhost);
   await animateGhostToSleeve(activeGhost, card, fromTransform, size);
+  if (!drawerWasOpen) {
+    await new Promise<void>((resolve) => window.setTimeout(resolve, 180));
+    setRecordDrawerOpen(false);
+  }
   return true;
 }
 
