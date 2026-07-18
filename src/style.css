@@ -1530,7 +1530,11 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 }
 
 .prototype-record-drawer.needs-drawer-hint .collection-drawer-handle {
-  animation: drawer-handle-hint 1.8s ease-in-out 6.4s 2;
+  animation: drawer-handle-hint 2.15s ease-in-out 5.6s 3;
+}
+
+.prototype-record-drawer.needs-drawer-hint .collection-drawer-handle span {
+  animation: drawer-knob-glow 2.15s ease-in-out 5.6s 3;
 }
 
 .prototype-record-drawer .collection-drawer-handle span {
@@ -1767,17 +1771,41 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 }
 
 @keyframes drawer-handle-hint {
-  0%, 100% { filter: brightness(1); }
-  35% { filter: brightness(1.18) drop-shadow(-5px 0 8px rgba(255,221,149,.48)); }
-  55% { translate: -8px 0; }
-  72% { translate: 2px 0; }
+  0%, 100% { filter: brightness(1); scale: 1; }
+  24%, 46% {
+    filter:
+      brightness(1.55)
+      drop-shadow(-7px 0 10px rgba(255,234,154,.92))
+      drop-shadow(-14px 0 22px rgba(255,190,105,.68));
+    scale: 1.045;
+  }
+  52% { translate: -15px 0; }
+  66% { translate: 4px 0; }
+  78% { translate: -7px 0; }
 }
 
 @keyframes drawer-handle-hint-mobile {
+  0%, 100% { filter: brightness(1); scale: 1; }
+  24%, 46% {
+    filter:
+      brightness(1.55)
+      drop-shadow(0 -7px 10px rgba(255,234,154,.92))
+      drop-shadow(0 -14px 22px rgba(255,190,105,.68));
+    scale: 1.045;
+  }
+  52% { translate: 0 -14px; }
+  66% { translate: 0 4px; }
+  78% { translate: 0 -7px; }
+}
+
+@keyframes drawer-knob-glow {
   0%, 100% { filter: brightness(1); }
-  35% { filter: brightness(1.18) drop-shadow(0 -5px 8px rgba(255,221,149,.48)); }
-  55% { translate: 0 -7px; }
-  72% { translate: 0 2px; }
+  24%, 46% {
+    filter:
+      brightness(1.8)
+      drop-shadow(0 0 7px rgba(255,246,171,.98))
+      drop-shadow(0 0 15px rgba(255,196,91,.88));
+  }
 }
 
 @keyframes return-sleeve-pulse {
@@ -1788,6 +1816,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
   .prototype-record-drawer .collection-drawer-handle,
+  .prototype-record-drawer.needs-drawer-hint .collection-drawer-handle span,
   .prototype-record-drawer .record-card.is-return-target .sleeve-art { animation: none !important; }
   .is-playing .loaded-record { animation: none; }
   .gift-note { animation: none !important; transition: none; }

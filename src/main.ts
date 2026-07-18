@@ -105,14 +105,14 @@ sleeveRow.setAttribute("aria-hidden", "true");
 function markDrawerDiscovered(): void {
   document.body.classList.remove("needs-drawer-hint");
   try {
-    window.sessionStorage.setItem("record-drawer-discovered", "1");
+    window.sessionStorage.setItem("record-drawer-discovered-v2", "1");
   } catch {
     // The hint still dismisses for this page when storage is unavailable.
   }
 }
 
 try {
-  if (!reducedMotion && !window.sessionStorage.getItem("record-drawer-discovered")) {
+  if (!reducedMotion && !window.sessionStorage.getItem("record-drawer-discovered-v2")) {
     document.body.classList.add("needs-drawer-hint");
   }
 } catch {
