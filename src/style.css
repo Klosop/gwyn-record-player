@@ -1412,12 +1412,12 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 .collection-drawer-handle { display: none; }
 
 .prototype-record-drawer .collection {
-  --shelf-card-size: clamp(100px, 8.5vw, 118px);
+  --shelf-card-size: clamp(112px, 9.5vw, 132px);
   position: fixed;
   z-index: 500;
   top: 50%;
   right: 0;
-  width: min(620px, 55vw);
+  width: min(520px, 46vw);
   max-height: min(92dvh, 760px);
   margin: 0;
   overflow: visible;
@@ -1548,12 +1548,12 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 }
 
 .prototype-record-drawer .sleeve-row {
-  grid-template-columns: repeat(4, minmax(0, var(--shelf-card-size)));
+  grid-template-columns: repeat(3, minmax(0, var(--shelf-card-size)));
   max-height: none;
   overflow: visible;
-  padding: 64px 4px 80px;
-  column-gap: clamp(8px, 1vw, 12px);
-  row-gap: 82px;
+  padding: 44px 4px 68px;
+  column-gap: clamp(10px, 1.2vw, 16px);
+  row-gap: 58px;
 }
 
 .prototype-record-drawer .sleeve-row::before,
@@ -1564,6 +1564,13 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 .prototype-record-drawer .record-card:nth-child(7),
 .prototype-record-drawer .record-card:nth-child(8) {
   grid-column: auto;
+}
+
+@media (min-width: 651px) and (max-width: 960px) {
+  .prototype-record-drawer .collection {
+    --shelf-card-size: clamp(96px, 12vw, 110px);
+    width: min(480px, 58vw);
+  }
 }
 
 @media (max-width: 650px) {
