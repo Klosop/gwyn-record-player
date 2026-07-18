@@ -1548,12 +1548,13 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 
 .prototype-record-drawer .sleeve-row {
   grid-template-columns: repeat(3, minmax(0, var(--shelf-card-size)));
-  max-height: calc(min(92dvh, 760px) - 132px);
+  max-height: calc(min(92dvh, 760px) - 74px);
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   border-radius: 0 0 8px 8px;
   scrollbar-color: rgba(92,53,43,.62) rgba(255,230,190,.12);
+  padding-bottom: 86px;
   row-gap: 92px;
 }
 
@@ -1642,7 +1643,7 @@ input:focus-visible { outline: 3px solid #fff4c9; outline-offset: 4px; }
 
   .prototype-record-drawer .sleeve-row {
     grid-template-columns: repeat(2, minmax(0, var(--shelf-card-size)));
-    max-height: calc(58dvh - 120px);
+    max-height: calc(58dvh - 42px);
     padding-top: 70px;
     padding-bottom: 80px;
   }
